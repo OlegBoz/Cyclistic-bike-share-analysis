@@ -1,0 +1,44 @@
+---
+title: "Usage Comparison"
+author: "Boz_international"
+date: "2025-11-21"
+output: html_document
+---
+```{r message=FALSE, warning=FALSE}
+library(readr)
+counts <- read_csv("counts.csv")
+```
+
+## Usage Comparison: Members vs. Casual Users
+
+My analysis shows that casual users tend to take significantly longer rides compared to members. While members use the service more consistently, their ride durations are generally shorter. In contrast, casual users spend more time per ride, indicating different usage patterns and motivations between the two groups.
+
+Further investigation may be necessary to determine for other contributing factors.
+---
+
+## Visualization
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+
+counts %>%
+  group_by(day_of_week, member_casual) %>%
+  summarise(mean_ride_length = mean(ride_length, na.rm = TRUE)) %>%
+  ggplot(aes(
+    x = day_of_week,
+    y = mean_ride_length,
+    fill = member_casual
+  )) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Average Ride Length by Day of Week",
+    x = "Day of Week",
+    y = "Average Ride Length",
+    fill = "User Type"
+  ) +
+  theme_minimal()
+
+```
+
+
+
